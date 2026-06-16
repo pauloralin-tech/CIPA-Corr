@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Meta tags - informações sobre a página -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eleição CIPA - Chevrolet</title>
+    
+    <!-- Link para o arquivo CSS externo -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- CABEÇALHO DA PÁGINA -->
+    <header class="header">
+        <div class="container">
+            <!-- Logo e título -->
+            <div class="logo-area">
+                <div class="logo-container">
+                    <div class="cipa-cross">+</div>
+                    <div class="logo-chevrolet">🚗</div>
+                </div>
+                <h1>CIPA Chevrolet</h1>
+                <p class="subtitle">Eleição de Representantes 2026</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="container">
+        
+        <!-- SEÇÃO 1: PÁGINA INICIAL -->
+        <section id="home" class="page active">
+            <div class="welcome-box">
+                <h2>Bem-vindo ao Sistema de Eleição CIPA</h2>
+                <p>Escolha seus representantes para a Comissão Interna de Prevenção de Acidentes e Assédio</p>
+                
+                <div class="info-cards">
+                    <!-- Card 1: Segurança -->
+                    <div class="info-card">
+                        <div class="card-icon">🔒</div>
+                        <h3>Seguro</h3>
+                        <p>CPF validado para garantir voto único</p>
+                    </div>
+                    
+                    <!-- Card 2: Privacidade -->
+                    <div class="info-card">
+                        <div class="card-icon">🔐</div>
+                        <h3>Privado</h3>
+                        <p>Seu voto é completamente secreto</p>
+                    </div>
+                    
+                    <!-- Card 3: Transparência -->
+                    <div class="info-card">
+                        <div class="card-icon">📊</div>
+                        <h3>Transparente</h3>
+                        <p>Resultados públicos e verificáveis</p>
+                    </div>
+                </div>
+
+                <!-- Botões de navegação -->
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="goToPage('candidates')">Ver Candidatos</button>
+                    <button class="btn btn-secondary" onclick="goToPage('vote')">Começar a Votar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: CANDIDATOS -->
+        <section id="candidates" class="page">
+            <h2>Candidatos CIPA</h2>
+            <p class="section-description">Conheça os candidatos disponíveis para representante CIPA</p>
+            
+            <!-- Container onde os candidatos serão exibidos -->
+            <div id="candidatesContainer" class="candidates-grid">
+                <!-- Os candidatos serão adicionados aqui pelo JavaScript -->
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: VOTAÇÃO -->
+        <section id="vote" class="page">
+            <h2>Votar</h2>
+            <p class="section-description">Selecione seu candidato e confirme seu voto</p>
+            
+            <div class="vote-box">
+                <!-- Campo de CPF -->
+                <div class="form-group">
+                    <label for="cpf">CPF (apenas números)</label>
+                    <input 
+                        type="text" 
+                        id="cpf" 
+                        placeholder="12345678900" 
+                        maxlength="11"
+                        class="input-field"
+                    >
+                    <small class="help-text">Seu CPF é usado apenas para validar o voto único</small>
+                </div>
+
+                <!-- Seleção de candidatos -->
+                <div class="form-group">
+                    <label>Selecione seu candidato:</label>
+                    <div id="candidatesVote" class="candidates-vote-list">
+                        <!-- Os candidatos serão adicionados aqui pelo JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Botões de confirmação -->
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="submitVote()" style="flex: 1;">Confirmar Voto</button>
+                    <button class="btn btn-secondary" onclick="submitNullVote()" style="flex: 1;">Voto Nulo</button>
+                </div>
+
+                <!-- Mensagem de resultado -->
+                <div id="voteMessage" class="message"></div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: RESULTADOS -->
+        <section id="results" class="page">
+            <h2>Resultados da Votação</h2>
+            <p class="section-description">Contagem de votos por candidato</p>
+            
+            <!-- Container para os resultados -->
+            <div id="resultsContainer" class="results-box">
+                <!-- Os resultados serão adicionados aqui pelo JavaScript -->
+            </div>
+        </section>
+
+        <!-- SEÇÃO 5: ADMIN -->
+        <section id="admin" class="page">
+            <h2>Painel Administrativo</h2>
+            
+            <!-- Tela de login -->
+            <div id="adminLogin" class="admin-login">
+                <div class="login-box">
+                    <h3>Acesso Restrito</h3>
+                    <p>Digite a senha para acessar o painel administrativo</p>
+                    
+                    <div class="form-group">
+                        <label for="adminPassword">Senha:</label>
+                        <input 
+                            type="password" 
+                            id="adminPassword" 
+                            placeholder="Digite a senha"
+                            class="input-field"
+                        >
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="adminLogin()">Entrar</button>
+                </div>
+            </div>
+
+            <!-- Painel do admin (escondido até fazer login) -->
+            <div id="adminPanel" class="admin-panel" style="display: none;">
+                <div class="admin-header">
+                    <h3>Gerenciamento da Eleição</h3>
+                    <button class="btn btn-secondary" onclick="adminLogout()">Sair</button>
+                </div>
+
+                <!-- Seção: Adicionar candidato -->
+                <div class="admin-section">
+                    <h4>Adicionar Candidato</h4>
+                    
+                    <div class="form-group">
+                        <label for="candidateName">Nome:</label>
+                        <input 
+                            type="text" 
+                            id="candidateName" 
+                            placeholder="Nome completo"
+                            class="input-field"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="candidateRole">Cargo/Departamento:</label>
+                        <input 
+                            type="text" 
+                            id="candidateRole" 
+                            placeholder="Ex: Operário, Supervisor"
+                            class="input-field"
+                        >
+                    </div>
+
+                    <button class="btn btn-primary" onclick="addCandidate()">Adicionar</button>
+                </div>
+
+                <!-- Seção: Lista de candidatos -->
+                <div class="admin-section">
+                    <h4>Candidatos Registrados</h4>
+                    <div id="adminCandidatesList" class="admin-list">
+                        <!-- Lista de candidatos será adicionada aqui -->
+                    </div>
+                </div>
+
+
+
+                <!-- Seção: Editar Votos dos Candidatos -->
+                <div class="admin-section">
+                    <h4>Editar Votos dos Candidatos</h4>
+                    <p style="font-size: 0.9rem; color: #888; margin-bottom: 15px;">Altere manualmente o número de votos de cada candidato</p>
+                    <div id="editVotesContainer" class="admin-list">
+                        <!-- Campos de edição de votos serão adicionados aqui -->
+                    </div>
+                </div>
+
+                <!-- Seção: Controle da votação -->
+                <div class="admin-section">
+                    <h4>Controle da Votação</h4>
+                    <p>Status: <span id="electionStatus" class="status-badge">Fechada</span></p>
+                    <button class="btn btn-primary" onclick="toggleElection()">Abrir/Fechar Votação</button>
+                    <button class="btn btn-secondary" onclick="clearVotedCPFs()" style="margin-top: 10px;">Limpar CPFs Votados</button>
+                </div>
+
+                <!-- Seção: Estatísticas -->
+                <div class="admin-section">
+                    <h4>Estatísticas</h4>
+                    <div class="stats">
+                        <div class="stat">
+                            <span class="stat-label">Total de Votos:</span>
+                            <span class="stat-value" id="totalVotes">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Candidatos:</span>
+                            <span class="stat-value" id="totalCandidates">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Eleitores Únicos:</span>
+                            <span class="stat-value" id="uniqueVoters">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label" style="color: #FF6F00;">Votos Nulos:</span>
+                            <span class="stat-value" id="nullVotesStat" style="color: #FF6F00;">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção: Registro de Votos -->
+                <div class="admin-section">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <div>
+                            <h4 style="margin: 0;">Registro de Votos</h4>
+                            <p style="font-size: 0.9rem; color: #888; margin: 5px 0 0 0;">Lista de eleitores e seus candidatos</p>
+                        </div>
+                        <button class="btn btn-danger btn-small" onclick="clearAllVotes()" style="white-space: nowrap;">Limpar Todos</button>
+                    </div>
+                    <div id="voteRecordList" class="vote-record-list">
+                        <!-- Lista de votos será adicionada aqui -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- RODAPÉ -->
+    <footer class="footer">
+        <p>&copy; 2024 CIPA Chevrolet - Segurança em Primeiro Lugar</p>
+    </footer>
+
+    <!-- NAVEGAÇÃO (Menu) -->
+    <nav class="navbar">
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="#" onclick="goToPage('home')" class="nav-link">Início</a></li>
+                <li><a href="#" onclick="goToPage('candidates')" class="nav-link">Candidatos</a></li>
+                <li><a href="#" onclick="goToPage('vote')" class="nav-link">Votar</a></li>
+                <li><a href="#" onclick="goToPage('results')" class="nav-link">Resultados</a></li>
+                <li><a href="#" onclick="goToPage('admin')" class="nav-link admin-link">Admin</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- IMPORTAR O ARQUIVO JAVASCRIPT -->
+    <script src="script.js"></script>
+</body>
+</html>
